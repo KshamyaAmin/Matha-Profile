@@ -85,7 +85,10 @@ export default function ProductsPage() {
                   {CATEGORIES.map((cat) => (
                     <button 
                       key={cat}
-                      onClick={() => setSelectedCategory(cat)}
+                      onClick={() => {
+                        setSelectedCategory(cat);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
                       className={`whitespace-nowrap rounded-md px-4 py-2 text-xs md:text-sm font-medium transition-all text-left ${
                         selectedCategory === cat 
                           ? 'bg-secondary text-white shadow-md' 

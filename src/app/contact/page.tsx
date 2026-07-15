@@ -16,13 +16,90 @@ import Link from 'next/link';
 
 export default function ContactPage() {
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [otherText, setOtherText] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const CATEGORY_OPTIONS = [
+    "Refrigerant Gases (R22, R134a, etc)",
+    "Industrial Compressor Oils",
+    "AC Copper Piping & Insulation",
+    "Brazing Rods & Technical Accessories",
+    "Other"
+  ];
+
+  const getProductCategoriesValue = () => {
+    return selectedCategories.map(c => {
+      if (c === "Other") {
+        return otherText.trim() ? `Other (${otherText.trim()})` : "Other";
+      }
+      return c;
+    }).join(', ');
+  };
+
+  const toggleCategory = (category: string) => {
+    setSelectedCategories(prev => {
+      const updated = prev.includes(category) 
+        ? prev.filter(c => c !== category) 
+        : [...prev, category];
+      if (updated.length > 0) {
+        setErrors(errs => ({ ...errs, product_categories: '' }));
+      }
+      return updated;
+    });
+  };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setStatus('submitting');
+    setErrors({});
+    setStatus('idle');
 
     const form = event.currentTarget;
     const formData = new FormData(form);
+    const name = formData.get('name') as string;
+    const company = formData.get('company') as string;
+    const phone = formData.get('phone') as string;
+    const message = formData.get('message') as string;
+
+    const newErrors: Record<string, string> = {};
+    if (!name.trim()) {
+      newErrors.name = "Full name is required";
+    } else if (name.trim().length < 2) {
+      newErrors.name = "Name must be at least 2 characters";
+    }
+
+    if (!company.trim()) {
+      newErrors.company = "Company name is required";
+    }
+
+    const phoneRegex = /^\+?[0-9\s\-()]{10,20}$/;
+    if (!phone.trim()) {
+      newErrors.phone = "Phone number is required";
+    } else if (!phoneRegex.test(phone.trim())) {
+      newErrors.phone = "Invalid phone number (min 10 digits)";
+    }
+
+    if (selectedCategories.length === 0) {
+      newErrors.product_categories = "Please select at least one category";
+    }
+
+    if (selectedCategories.includes("Other") && !otherText.trim()) {
+      newErrors.other_text = "Please specify your requirement";
+    }
+
+    if (!message.trim()) {
+      newErrors.message = "Message is required";
+    } else if (message.trim().length < 10) {
+      newErrors.message = "Message must be at least 10 characters";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    setStatus('submitting');
 
     try {
       const response = await fetch("https://formsubmit.co/ajax/matarefrigeration@gmail.com", {
@@ -33,6 +110,8 @@ export default function ContactPage() {
 
       if (response.ok) {
         form.reset();
+        setSelectedCategories([]);
+        setOtherText('');
         setStatus('success');
       } else {
         throw new Error('Submission failed');
@@ -134,7 +213,7 @@ export default function ContactPage() {
                       <h4 className="font-bold text-primary text-sm">Contact Number</h4>
                       <p className="text-gray-600 mt-1 text-sm">
                         <a href="tel:+918080673647" className="hover:text-secondary-light font-semibold">
-                          080806 73647
+                          +91 80806 73647
                         </a>
                       </p>
                     </div>
@@ -144,8 +223,8 @@ export default function ContactPage() {
                     <div>
                       <h4 className="font-bold text-primary text-sm">Operations</h4>
                       <p className="text-gray-600 mt-1 text-sm">
-                        Mon - Sat: 09:00 AM - 08:00 PM<br />
-                        <span className="text-secondary-light font-semibold italic text-xs">Sunday: WhatsApp Support Only</span>
+                        Mon - Sat: 10:00 AM - 06:00 PM<br />
+                        <span className="text-red-500 font-semibold italic text-xs">Sunday: Closed</span>
                       </p>
                     </div>
                   </div>
@@ -195,96 +274,165 @@ export default function ContactPage() {
 
             {/* Right: Modern Form */}
             <div className="lg:col-span-7">
-              <div className="bg-white rounded-3xl p-8 lg:p-12 shadow-2xl border border-gray-100">
-                <h2 className="font-heading text-3xl font-bold mb-4">Industrial Enquiry</h2>
-                <p className="text-gray-500 mb-10">Mention your BTU requirements or gas tonnage for specialized bulk pricing.</p>
+              <div className="bg-white rounded-2xl p-6 lg:p-8 shadow-xl border border-gray-100">
+                <h2 className="font-heading text-2xl font-bold mb-2">Industrial Enquiry</h2>
+                <p className="text-gray-500 mb-6 text-sm">Mention your BTU requirements or gas tonnage for specialized bulk pricing.</p>
                 
                 {status === 'success' && (
-                  <div className="rounded-xl bg-green-50 border border-green-200 p-5 text-sm text-green-700 mb-6">
-                    <p className="font-bold text-lg">Thank you!</p>
+                  <div className="rounded-xl bg-green-50 border border-green-200 p-4 text-sm text-green-700 mb-5">
+                    <p className="font-bold text-base">Thank you!</p>
                     <p className="mt-1">Your industrial enquiry has been sent successfully. Our team will contact you shortly.</p>
                   </div>
                 )}
 
                 {status === 'error' && (
-                  <div className="rounded-xl bg-red-50 border border-red-200 p-5 text-sm text-red-700 mb-6">
-                    <p className="font-bold text-lg">Submission failed</p>
+                  <div className="rounded-xl bg-red-50 border border-red-200 p-4 text-sm text-red-700 mb-5">
+                    <p className="font-bold text-base">Submission failed</p>
                     <p className="mt-1">Something went wrong. Please try again or call us directly.</p>
                   </div>
                 )}
 
                 <form 
                   onSubmit={handleSubmit}
-                  className="space-y-6"
+                  className="space-y-4"
+                  noValidate
                 >
                   {/* FormSubmit Configuration */}
                   <input type="hidden" name="_subject" value="New Industrial Enquiry - Mata Refrigeration" />
                   <input type="hidden" name="_template" value="table" />
                   <input type="hidden" name="_captcha" value="false" />
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1">
                       <label className="text-xs font-bold uppercase tracking-widest text-gray-400">Full Name</label>
                       <input 
                         type="text" 
                         name="name"
-                        required
-                        className="w-full bg-gray-50 border-none rounded-xl px-4 py-4 focus:ring-2 focus:ring-secondary-light transition-all outline-none text-primary" 
+                        className={`w-full bg-gray-50 border rounded-xl px-4 py-3 focus:ring-2 focus:ring-secondary-light outline-none text-primary text-sm transition-all ${
+                          errors.name ? 'border-red-500 focus:ring-red-500' : 'border-transparent'
+                        }`}
                         placeholder="Industrial Buyer Name" 
                       />
+                      {errors.name && <p className="text-red-500 text-[11px] font-semibold mt-0.5">{errors.name}</p>}
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-1">
                       <label className="text-xs font-bold uppercase tracking-widest text-gray-400">Company</label>
                       <input 
                         type="text" 
                         name="company"
-                        className="w-full bg-gray-50 border-none rounded-xl px-4 py-4 focus:ring-2 focus:ring-secondary-light transition-all outline-none text-primary" 
+                        className={`w-full bg-gray-50 border rounded-xl px-4 py-3 focus:ring-2 focus:ring-secondary-light outline-none text-primary text-sm transition-all ${
+                          errors.company ? 'border-red-500 focus:ring-red-500' : 'border-transparent'
+                        }`}
                         placeholder="Technical / Contracting Firm" 
                       />
+                      {errors.company && <p className="text-red-500 text-[11px] font-semibold mt-0.5">{errors.company}</p>}
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1">
                       <label className="text-xs font-bold uppercase tracking-widest text-gray-400">Phone Number</label>
                       <input 
                         type="tel" 
                         name="phone"
-                        required
-                        className="w-full bg-gray-50 border-none rounded-xl px-4 py-4 focus:ring-2 focus:ring-secondary-light transition-all outline-none text-primary" 
+                        className={`w-full bg-gray-50 border rounded-xl px-4 py-3 focus:ring-2 focus:ring-secondary-light outline-none text-primary text-sm transition-all ${
+                          errors.phone ? 'border-red-500 focus:ring-red-500' : 'border-transparent'
+                        }`}
                         placeholder="For instant WhatsApp quote" 
                       />
+                      {errors.phone && <p className="text-red-500 text-[11px] font-semibold mt-0.5">{errors.phone}</p>}
                     </div>
-                    <div className="space-y-2">
+                     <div className="space-y-1 relative">
                       <label className="text-xs font-bold uppercase tracking-widest text-gray-400">Requirement</label>
-                      <select 
-                        name="product_category"
-                        className="w-full bg-gray-50 border-none rounded-xl px-4 py-4 focus:ring-2 focus:ring-secondary-light transition-all outline-none text-primary appearance-none"
+                      <button
+                        type="button"
+                        onClick={() => setIsOpen(!isOpen)}
+                        className={`w-full bg-gray-50 border rounded-xl px-4 py-3 focus:ring-2 focus:ring-secondary-light transition-all outline-none text-primary text-left flex justify-between items-center text-sm transition-all ${
+                          errors.product_categories ? 'border-red-500 focus:ring-red-500' : 'border-transparent'
+                        }`}
                       >
-                        <option value="General Enquiry">Select Product Category</option>
-                        <option value="Refrigerant Gases">Refrigerant Gases (R22, R134a, etc)</option>
-                        <option value="Compressor Oils">Industrial Compressor Oils</option>
-                        <option value="Copper Piping">AC Copper Piping & Insulation</option>
-                        <option value="Technical Accessories">Brazing Rods & Technical Accessories</option>
-                      </select>
+                        <span className="truncate">
+                          {selectedCategories.length === 0 
+                            ? 'Select Product Categories' 
+                            : getProductCategoriesValue()
+                          }
+                        </span>
+                        <span className="text-gray-400 text-xs">{isOpen ? '▲' : '▼'}</span>
+                      </button>
+                      
+                      {isOpen && (
+                        <>
+                          <div className="fixed inset-0 z-20" onClick={() => setIsOpen(false)} />
+                          <div className="absolute z-30 mt-1 w-full bg-white border border-gray-200 rounded-xl shadow-lg p-3 space-y-2 max-h-60 overflow-y-auto">
+                            {CATEGORY_OPTIONS.map((option) => {
+                              const isChecked = selectedCategories.includes(option);
+                              return (
+                                <label 
+                                  key={option} 
+                                  className={`flex items-center gap-3 p-2.5 rounded-lg cursor-pointer transition-colors hover:bg-gray-50 ${isChecked ? 'bg-secondary-light/5 font-semibold text-secondary-light' : 'text-primary'}`}
+                                >
+                                  <input 
+                                    type="checkbox"
+                                    checked={isChecked}
+                                    onChange={() => toggleCategory(option)}
+                                    className="rounded text-secondary-light focus:ring-secondary-light h-4 w-4"
+                                  />
+                                  <span className="text-sm">{option}</span>
+                                </label>
+                              );
+                            })}
+                          </div>
+                        </>
+                      )}
+                      
+                      <input 
+                        type="hidden" 
+                        name="product_categories" 
+                        value={getProductCategoriesValue()} 
+                      />
+                      {errors.product_categories && <p className="text-red-500 text-[11px] font-semibold mt-0.5">{errors.product_categories}</p>}
                     </div>
                   </div>
 
-                  <div className="space-y-2">
+                  {/* Specify Other Input */}
+                  {selectedCategories.includes("Other") && (
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold uppercase tracking-widest text-gray-400">Specify Other Requirement</label>
+                      <input 
+                        type="text"
+                        value={otherText}
+                        onChange={(e) => {
+                          setOtherText(e.target.value);
+                          if (e.target.value.trim()) {
+                            setErrors(errs => ({ ...errs, other_text: '' }));
+                          }
+                        }}
+                        placeholder="Please specify your requirement..."
+                        className={`w-full bg-gray-50 border rounded-xl px-4 py-3 focus:ring-2 focus:ring-secondary-light outline-none text-primary text-sm transition-all ${
+                          errors.other_text ? 'border-red-500 focus:ring-red-500' : 'border-transparent'
+                        }`}
+                      />
+                      {errors.other_text && <p className="text-red-500 text-[11px] font-semibold mt-0.5">{errors.other_text}</p>}
+                    </div>
+                  )}
+
+                  <div className="space-y-1">
                     <label className="text-xs font-bold uppercase tracking-widest text-gray-400">Detailed Message</label>
                     <textarea 
                       name="message"
-                      required
                       rows={4} 
-                      className="w-full bg-gray-50 border-none rounded-xl px-4 py-4 focus:ring-2 focus:ring-secondary-light transition-all outline-none text-primary resize-none" 
+                      className={`w-full bg-gray-50 border rounded-xl px-4 py-3 focus:ring-2 focus:ring-secondary-light outline-none text-primary resize-none text-sm transition-all ${
+                        errors.message ? 'border-red-500 focus:ring-red-500' : 'border-transparent'
+                      }`}
                       placeholder="Describe your scale, quantity, or technical needs..."
                     ></textarea>
+                    {errors.message && <p className="text-red-500 text-[11px] font-semibold mt-0.5">{errors.message}</p>}
                   </div>
 
                   <button 
                     type="submit"
                     disabled={status === 'submitting' || status === 'success'}
-                    className={`w-full bg-primary text-white py-5 rounded-xl font-bold hover:bg-secondary-light transition-all shadow-lg flex items-center justify-center gap-3 active:scale-[0.98] ${
+                    className={`w-full bg-primary text-white py-3.5 rounded-xl font-bold hover:bg-secondary-light transition-all shadow-lg flex items-center justify-center gap-3 active:scale-[0.98] ${
                       (status === 'submitting' || status === 'success') ? 'opacity-50 cursor-not-allowed' : 'opacity-100'
                     }`}
                   >

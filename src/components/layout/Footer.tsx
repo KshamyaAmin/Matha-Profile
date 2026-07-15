@@ -69,7 +69,7 @@ export default function Footer() {
             <div className="grid grid-cols-2 sm:grid-cols-5 lg:grid-cols-1 gap-4">
               <a href="tel:+918080673647" className="flex flex-col lg:flex-row items-center lg:items-start space-y-2 lg:space-y-0 lg:space-x-3 hover:text-secondary-light transition-colors group">
                 <Phone size={20} className="text-secondary-light shrink-0 lg:w-[18px] lg:h-[18px]" />
-                <span className="text-[10px] sm:text-xs lg:text-sm text-center lg:text-left">080806 73647</span>
+                <span className="text-[10px] sm:text-xs lg:text-sm text-center lg:text-left">+91 80806 73647</span>
               </a>
               <a href="https://wa.me/918080673647" className="flex flex-col lg:flex-row items-center lg:items-start space-y-2 lg:space-y-0 lg:space-x-3 hover:text-secondary-light transition-colors group">
                 <MessageCircle size={20} className="text-secondary-light shrink-0 lg:w-[18px] lg:h-[18px]" />
