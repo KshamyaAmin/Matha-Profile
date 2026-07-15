@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/Button';
 import { CATEGORIES, DEFAULT_PRODUCTS, readProducts, saveProducts, PRODUCT_STORAGE_KEY, type Product } from '@/lib/products';
 import { ImagePlus, LogOut, Pencil, Plus, Save, Search, ShieldCheck, Trash2, X } from 'lucide-react';
 import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from 'react';
+import { FullPageLoader } from '@/components/ui/LoadingIndicator';
 
 const emptyProduct: Product = {
   id: '',
@@ -32,8 +33,20 @@ export default function AdminDashboard() {
   const [editingProduct, setEditingProduct] = useState<Product>(emptyProduct);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusMessage, setStatusMessage] = useState('');
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   useEffect(() => {
+    const startTime = Date.now();
+    const minLoadingTime = 1000; // 1 second
+
+    const finishChecking = () => {
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(0, minLoadingTime - elapsed);
+      setTimeout(() => {
+        setIsCheckingAuth(false);
+      }, remaining);
+    };
+
     const syncAuth = async () => {
       try {
         const response = await fetch('/api/admin/session', { cache: 'no-store' });
@@ -41,6 +54,8 @@ export default function AdminDashboard() {
         setIsAuthenticated(Boolean(data.authenticated));
       } catch {
         setIsAuthenticated(false);
+      } finally {
+        finishChecking();
       }
     };
 
@@ -203,6 +218,10 @@ export default function AdminDashboard() {
     persistProducts(DEFAULT_PRODUCTS, 'Catalog reset to default products.');
     setEditingProduct(emptyProduct);
   };
+
+  if (isCheckingAuth) {
+    return <FullPageLoader label="Verifying session..." />;
+  }
 
   if (!isAuthenticated) {
     return (

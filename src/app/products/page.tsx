@@ -5,11 +5,13 @@ import { Button } from '@/components/ui/Button';
 import { CATEGORIES, readProducts, PRODUCT_STORAGE_KEY, type Product } from '@/lib/products';
 import { MessageCircle, Filter, Search } from 'lucide-react';
 import { useEffect, useState, useMemo } from 'react';
+import { ProductGridSkeleton } from '@/components/ui/ProductSkeleton';
 
 export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const loadProducts = () => setProducts(readProducts());
@@ -17,6 +19,17 @@ export default function ProductsPage() {
     loadProducts();
     window.addEventListener('mata-products-updated', loadProducts);
     window.addEventListener('storage', loadProducts);
+
+    const startTime = Date.now();
+    const minLoadingTime = 1200; // 1.2 seconds
+
+    const finishLoading = () => {
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(0, minLoadingTime - elapsed);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, remaining);
+    };
 
     // Sync from server JSON file
     fetch('/api/products')
@@ -27,7 +40,10 @@ export default function ProductsPage() {
           loadProducts();
         }
       })
-      .catch((err) => console.error('Error fetching products from server:', err));
+      .catch((err) => console.error('Error fetching products from server:', err))
+      .finally(() => {
+        finishLoading();
+      });
 
     return () => {
       window.removeEventListener('mata-products-updated', loadProducts);
@@ -101,7 +117,9 @@ export default function ProductsPage() {
                 </div>
               </div>
 
-              {filteredProducts.length > 0 ? (
+              {isLoading ? (
+                <ProductGridSkeleton count={8} />
+              ) : filteredProducts.length > 0 ? (
                 <div className="grid grid-cols-2 gap-2 md:gap-6 md:grid-cols-3 xl:grid-cols-4">
                   {filteredProducts.map((product) => (
                     <div key={product.id} className="group flex flex-col overflow-hidden rounded-lg border bg-white shadow-sm transition-all hover:shadow-md">
