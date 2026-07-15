@@ -123,10 +123,10 @@ export default function ProductsPage() {
                 <div className="grid grid-cols-2 gap-2 md:gap-6 md:grid-cols-3 xl:grid-cols-4">
                   {filteredProducts.map((product) => (
                     <div key={product.id} className="group flex flex-col overflow-hidden rounded-lg border bg-white shadow-sm transition-all hover:shadow-md">
-                      <div className="aspect-square bg-gray-100 flex items-center justify-center overflow-hidden text-gray-400">
+                      <div className="aspect-square bg-gray-100 flex items-center justify-center overflow-hidden text-gray-400 p-2">
                         {product.image ? (
                           // eslint-disable-next-line @next/next/no-img-element
-                          <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
+                          <img src={product.image} alt={product.name} className="h-full w-full object-contain" />
                         ) : (
                           <span className="text-[8px] sm:text-xs italic text-center px-1">Product Photo</span>
                         )}

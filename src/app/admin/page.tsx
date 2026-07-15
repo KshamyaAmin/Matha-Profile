@@ -319,10 +319,10 @@ export default function AdminDashboard() {
             </div>
 
             <div className="mb-3 overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
-              <div className="flex h-28 items-center justify-center overflow-hidden text-gray-400">
+              <div className="flex h-28 items-center justify-center overflow-hidden text-gray-400 p-2">
                 {editingProduct.image ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={editingProduct.image} alt={editingProduct.name || 'Product preview'} className="h-full w-full object-cover" />
+                  <img src={editingProduct.image} alt={editingProduct.name || 'Product preview'} className="h-full w-full object-contain" />
                 ) : (
                   <div className="flex flex-col items-center gap-1.5 text-xs">
                     <ImagePlus size={20} />
@@ -420,11 +420,11 @@ export default function AdminDashboard() {
           <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-3 2xl:grid-cols-4">
             {filteredProducts.map((product) => (
               <article key={product.id} className="overflow-hidden rounded-lg border border-gray-200 bg-white">
-                <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden bg-gray-100 text-gray-400">
+                <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden bg-gray-100 text-gray-400 p-2">
                   {product.image ? (
                     <>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
+                      <img src={product.image} alt={product.name} className="h-full w-full object-contain" />
                       <button
                         type="button"
                         onClick={() => handleRemoveImage(product.id)}
