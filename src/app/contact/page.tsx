@@ -1,3 +1,6 @@
+'use client';
+
+import { useState, FormEvent } from 'react';
 import { 
   Phone, 
   MessageCircle, 
@@ -12,6 +15,34 @@ import {
 import Link from 'next/link';
 
 export default function ContactPage() {
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setStatus('submitting');
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/matarefrigeration@gmail.com", {
+        method: "POST",
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        form.reset();
+        setStatus('success');
+      } else {
+        throw new Error('Submission failed');
+      }
+    } catch (err) {
+      console.error(err);
+      setStatus('error');
+    }
+  };
+
   return (
     <div className="flex flex-col font-sans text-primary">
       {/* --- HERO SECTION --- */}
@@ -67,8 +98,8 @@ export default function ContactPage() {
               </div>
               <h3 className="font-heading text-lg font-bold mb-1">Email Support</h3>
               <p className="text-xs text-gray-500 mb-3">For bulk quotes & corporate inquiries.</p>
-              <a href="mailto:info@matarefrigeration.com" className="text-md font-bold text-primary hover:text-secondary-light flex items-center gap-2">
-                Email Us
+              <a href="mailto:matarefrigeration@gmail.com" className="text-md font-bold text-primary hover:text-secondary-light flex items-center gap-2">
+                matarefrigeration@gmail.com
                 <ArrowRight size={14} />
               </a>
             </div>
@@ -168,9 +199,22 @@ export default function ContactPage() {
                 <h2 className="font-heading text-3xl font-bold mb-4">Industrial Enquiry</h2>
                 <p className="text-gray-500 mb-10">Mention your BTU requirements or gas tonnage for specialized bulk pricing.</p>
                 
+                {status === 'success' && (
+                  <div className="rounded-xl bg-green-50 border border-green-200 p-5 text-sm text-green-700 mb-6">
+                    <p className="font-bold text-lg">Thank you!</p>
+                    <p className="mt-1">Your industrial enquiry has been sent successfully. Our team will contact you shortly.</p>
+                  </div>
+                )}
+
+                {status === 'error' && (
+                  <div className="rounded-xl bg-red-50 border border-red-200 p-5 text-sm text-red-700 mb-6">
+                    <p className="font-bold text-lg">Submission failed</p>
+                    <p className="mt-1">Something went wrong. Please try again or call us directly.</p>
+                  </div>
+                )}
+
                 <form 
-                  action="https://formsubmit.co/info@matarefrigeration.com" 
-                  method="POST"
+                  onSubmit={handleSubmit}
                   className="space-y-6"
                 >
                   {/* FormSubmit Configuration */}
@@ -239,10 +283,16 @@ export default function ContactPage() {
 
                   <button 
                     type="submit"
-                    className="w-full bg-primary text-white py-5 rounded-xl font-bold hover:bg-secondary-light transition-all shadow-lg active:scale-[0.98] flex items-center justify-center gap-3"
+                    disabled={status === 'submitting' || status === 'success'}
+                    className={`w-full bg-primary text-white py-5 rounded-xl font-bold hover:bg-secondary-light transition-all shadow-lg flex items-center justify-center gap-3 active:scale-[0.98] ${
+                      (status === 'submitting' || status === 'success') ? 'opacity-50 cursor-not-allowed' : 'opacity-100'
+                    }`}
                   >
-                    SEND ENQUIRY
-                    <Send size={18} />
+                    {status === 'submitting' && 'SENDING...'}
+                    {status === 'success' && 'SENT!'}
+                    {status === 'error' && 'TRY AGAIN'}
+                    {status === 'idle' && 'SEND ENQUIRY'}
+                    {status !== 'submitting' && status !== 'success' && <Send size={18} />}
                   </button>
                 </form>
               </div>

@@ -75,9 +75,9 @@ export default function Footer() {
                 <MessageCircle size={20} className="text-secondary-light shrink-0 lg:w-[18px] lg:h-[18px]" />
                 <span className="text-[10px] sm:text-xs lg:text-sm text-center lg:text-left">WhatsApp</span>
               </a>
-              <a href="mailto:info@matarefrigeration.com" className="flex flex-col lg:flex-row items-center lg:items-start space-y-2 lg:space-y-0 lg:space-x-3 hover:text-secondary-light transition-colors group">
+              <a href="mailto:matarefrigeration@gmail.com" className="flex flex-col lg:flex-row items-center lg:items-start space-y-2 lg:space-y-0 lg:space-x-3 hover:text-secondary-light transition-colors group">
                 <Mail size={20} className="text-secondary-light shrink-0 lg:w-[18px] lg:h-[18px]" />
-                <span className="text-[10px] sm:text-xs lg:text-sm text-center lg:text-left truncate max-w-full">Email Us</span>
+                <span className="text-[10px] sm:text-xs lg:text-sm text-center lg:text-left truncate max-w-full">matarefrigeration@gmail.com</span>
               </a>
               <a href="https://www.indiamart.com/matarefrigeration/profile.html" target="_blank" rel="noopener noreferrer" className="flex flex-col lg:flex-row items-center lg:items-start space-y-2 lg:space-y-0 lg:space-x-3 hover:text-secondary-light transition-colors group">
                 <Store size={20} className="text-secondary-light shrink-0 lg:w-[18px] lg:h-[18px]" />
