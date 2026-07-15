@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Phone, MessageCircle, MapPin, Menu, X, ShieldCheck, LogOut } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 
 
@@ -170,82 +170,110 @@ export default function Header() {
         </div>
       </nav>
 
-      {/* Mobile Menu Overlay - SIMPLE CSS VERSION */}
-      {isMenuOpen && (
-        <div className="fixed inset-0 z-[100] flex flex-col bg-white overflow-y-auto lg:hidden">
-          {/* Menu Header */}
-          <div className="flex items-center justify-between p-6 border-b">
-            <span className="text-xl font-bold text-primary">MENU</span>
-            <button 
+      {/* Mobile Menu Drawer with Framer Motion */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <>
+            {/* Dark Backdrop Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
               onClick={() => setIsMenuOpen(false)}
-              className="p-3 bg-gray-100 rounded-full text-gray-600"
+              className="fixed inset-0 z-[99] bg-black lg:hidden"
+            />
+
+            {/* Slide-out Drawer */}
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'tween', ease: 'easeInOut', duration: 0.3 }}
+              className="fixed right-0 top-0 bottom-0 z-[100] flex w-[75vw] max-w-[320px] flex-col bg-white shadow-2xl lg:hidden h-full overflow-y-auto"
             >
-              <X size={28} />
-            </button>
-          </div>
-          
-          {/* Navigation Links */}
-          <nav className="flex flex-col p-6 space-y-4">
-            {navLinks.map((link) => {
-              const isActive = pathname === link.href;
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  prefetch={false}
+              {/* Menu Header */}
+              <div className="flex items-center justify-between p-4 border-b">
+                <span className="text-lg font-bold text-primary tracking-tight">MENU</span>
+                <button
                   onClick={() => setIsMenuOpen(false)}
-                  className={`text-2xl font-bold py-6 border-b border-gray-50 flex justify-between items-center ${isActive ? 'text-primary' : 'text-gray-800'}`}
+                  className="p-2 bg-gray-100 rounded-full text-gray-600 hover:bg-gray-200 transition-colors"
+                  aria-label="Close menu"
                 >
-                  {link.name}
-                  {isActive && <div className="h-3 w-3 rounded-full bg-primary" />}
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* Navigation Links */}
+              <nav className="flex flex-col p-5 space-y-2">
+                {navLinks.map((link) => {
+                  const isActive = pathname === link.href;
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      prefetch={false}
+                      onClick={() => setIsMenuOpen(false)}
+                      className={`text-lg font-bold py-3.5 border-b border-gray-50 flex justify-between items-center transition-colors ${
+                        isActive ? 'text-primary' : 'text-gray-700 hover:text-primary'
+                      }`}
+                    >
+                      {link.name}
+                      {isActive && <div className="h-2 w-2 rounded-full bg-primary" />}
+                    </Link>
+                  );
+                })}
+
+                {/* CTA Button */}
+                {isAdminLoggedIn ? (
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-accent py-3.5 text-sm font-bold text-white shadow-md hover:bg-accent-dark transition-all active:scale-[0.98]"
+                  >
+                    <LogOut size={18} />
+                    Logout
+                  </button>
+                ) : (
+                  <Link
+                    href="/contact"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="mt-6 block w-full bg-accent text-white text-center py-3.5 rounded-lg text-sm font-bold shadow-md hover:bg-accent-dark transition-all active:scale-[0.98]"
+                  >
+                    Request Quote
+                  </Link>
+                )}
+
+                <Link
+                  href="/admin"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg border border-primary py-3.5 text-sm font-bold text-primary hover:bg-gray-50 transition-all active:scale-[0.98]"
+                >
+                  <ShieldCheck size={18} />
+                  Admin Login
                 </Link>
-              );
-            })}
-            
-            {/* CTA Button */}
-            {isAdminLoggedIn ? (
-              <button
-                type="button"
-                onClick={handleLogout}
-                className="mt-6 flex w-full items-center justify-center gap-3 rounded-xl bg-accent py-5 text-xl font-bold text-white shadow-lg shadow-accent/20"
-              >
-                <LogOut size={24} />
-                Logout
-              </button>
-            ) : (
-              <Link 
-                href="/contact" 
-                onClick={() => setIsMenuOpen(false)}
-                className="mt-6 w-full bg-accent text-white text-center py-5 rounded-xl text-xl font-bold shadow-lg shadow-accent/20"
-              >
-                Request Quote
-              </Link>
-            )}
 
-            <Link
-              href="/admin"
-              onClick={() => setIsMenuOpen(false)}
-              className="flex w-full items-center justify-center gap-3 rounded-xl border border-primary py-5 text-xl font-bold text-primary"
-            >
-              <ShieldCheck size={24} />
-              Admin Login
-            </Link>
-
-            {/* Quick Contact Info */}
-            <div className="pt-8 mt-4 border-t border-gray-100 space-y-6">
-              <p className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Direct Contact</p>
-              <a href="tel:+918080673647" className="flex items-center gap-4 text-gray-700 font-bold text-lg">
-                <div className="bg-primary/10 p-3 rounded-full text-primary"><Phone size={24} /></div>
-                080806 73647
-              </a>
-              <a href="https://wa.me/918080673647" className="flex items-center gap-4 text-gray-700 font-bold text-lg">
-                <div className="bg-green-50 p-3 rounded-full text-green-600"><MessageCircle size={24} /></div>
-                WhatsApp Enquiry
-              </a>
-            </div>
-          </nav>
-        </div>
-      )}
+                {/* Quick Contact Info */}
+                <div className="pt-6 mt-6 border-t border-gray-100 space-y-4">
+                  <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Direct Contact</p>
+                  <a href="tel:+918080673647" className="flex items-center gap-3 text-gray-700 font-bold text-sm hover:text-primary transition-colors">
+                    <div className="bg-primary/5 p-2.5 rounded-full text-primary">
+                      <Phone size={18} />
+                    </div>
+                    080806 73647
+                  </a>
+                  <a href="https://wa.me/918080673647" className="flex items-center gap-3 text-gray-700 font-bold text-sm hover:text-green-600 transition-colors">
+                    <div className="bg-green-50 p-2.5 rounded-full text-green-600">
+                      <MessageCircle size={18} />
+                    </div>
+                    WhatsApp Enquiry
+                  </a>
+                </div>
+              </nav>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
