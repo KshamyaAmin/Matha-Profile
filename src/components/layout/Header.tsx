@@ -158,15 +158,17 @@ export default function Header() {
           )}
 
           {/* Burger Menu Button */}
-          <button
-            className="flex h-12 w-12 items-center justify-center rounded-full bg-[#06112C] p-2 text-white lg:hidden z-[101] shadow-xl"
-            onClick={() => {
-              setIsMenuOpen(!isMenuOpen);
-            }}
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
+          {!isMenuOpen && (
+            <button
+              className="flex h-12 w-12 items-center justify-center rounded-full bg-[#06112C] p-2 text-white lg:hidden z-[101] shadow-xl"
+              onClick={() => {
+                setIsMenuOpen(true);
+              }}
+              aria-label="Open menu"
+            >
+              <Menu size={28} />
+            </button>
+          )}
         </div>
       </nav>
 
