@@ -72,7 +72,7 @@ export default function Header() {
           <div className="flex space-x-4">
             <a href="tel:+918080673647" className="flex items-center space-x-1 hover:text-secondary-light">
               <Phone size={14} />
-              <span>080806 73647</span>
+              <span>+91 80806 73647</span>
             </a>
             <a href="https://wa.me/918080673647" className="flex items-center space-x-1 hover:text-secondary-light">
               <MessageCircle size={14} />
@@ -112,8 +112,8 @@ export default function Header() {
                 href={link.href}
                 prefetch={false}
                 className={`relative transition-all duration-200 active:scale-90 py-1 ${isActive
-                    ? 'text-primary font-bold'
-                    : 'text-gray-600 hover:text-primary'
+                  ? 'text-primary font-bold'
+                  : 'text-gray-600 hover:text-primary'
                   }`}
               >
                 {link.name}
@@ -216,9 +216,8 @@ export default function Header() {
                       href={link.href}
                       prefetch={false}
                       onClick={() => setIsMenuOpen(false)}
-                      className={`text-lg font-bold py-3.5 border-b border-gray-50 flex justify-between items-center transition-colors ${
-                        isActive ? 'text-primary' : 'text-gray-700 hover:text-primary'
-                      }`}
+                      className={`text-lg font-bold py-3.5 border-b border-gray-50 flex justify-between items-center transition-colors ${isActive ? 'text-primary' : 'text-gray-700 hover:text-primary'
+                        }`}
                     >
                       {link.name}
                       {isActive && <div className="h-2 w-2 rounded-full bg-primary" />}
@@ -262,7 +261,7 @@ export default function Header() {
                     <div className="bg-primary/5 p-2.5 rounded-full text-primary">
                       <Phone size={18} />
                     </div>
-                    080806 73647
+                    +91 80806 73647
                   </a>
                   <a href="https://wa.me/918080673647" className="flex items-center gap-3 text-gray-700 font-bold text-sm hover:text-green-600 transition-colors">
                     <div className="bg-green-50 p-2.5 rounded-full text-green-600">

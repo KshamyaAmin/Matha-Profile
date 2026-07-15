@@ -24,14 +24,17 @@ export default function Footer() {
             <p className="mb-6 text-sm leading-relaxed mx-auto md:mx-0 max-w-sm lg:max-w-none">
               Trusted supplier of refrigerant gases, compressor oils, copper pipes, and HVAC accessories in Navi Mumbai.
             </p>
-            <div className="flex flex-col items-center md:items-start space-y-2 text-sm">
-              <div className="flex flex-col md:flex-row items-center md:items-start space-y-2 md:space-y-0 md:space-x-3 text-center md:text-left">
-                <MapPin size={18} className="text-secondary shrink-0 mt-1" />
-                <span className="max-w-[250px] md:max-w-none">
-                  CHANNEL CLASSIC, HSG Society<br />
-                  Shop No -1, Plot No-91, Sector 1<br />
-                  Kopar Khairane, Navi Mumbai 400709
-                </span>
+            <div className="flex flex-col items-start space-y-2 text-sm">
+              <div className="flex items-start space-x-3 text-left">
+                <MapPin size={18} className="text-secondary-light shrink-0 mt-1" />
+                <div>
+                  <span className="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-0.5">Address:</span>
+                  <span className="block font-bold text-white leading-relaxed max-w-[250px] md:max-w-none">
+                    CHANNEL CLASSIC, HSG Society<br />
+                    Shop No -1, Plot No-91, Sector 1<br />
+                    Kopar Khairane, Navi Mumbai 400709
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -64,24 +67,24 @@ export default function Footer() {
           <div className="col-span-2 lg:col-span-1">
             <h4 className="mb-6 lg:mb-4 font-semibold text-white uppercase tracking-wider text-center md:text-left text-sm md:text-base">Contact Us</h4>
             <div className="grid grid-cols-2 sm:grid-cols-5 lg:grid-cols-1 gap-4">
-              <a href="tel:+918080673647" className="flex flex-col lg:flex-row items-center lg:items-start space-y-2 lg:space-y-0 lg:space-x-3 hover:text-secondary transition-colors group">
-                <Phone size={20} className="text-secondary shrink-0 lg:w-[18px] lg:h-[18px]" />
+              <a href="tel:+918080673647" className="flex flex-col lg:flex-row items-center lg:items-start space-y-2 lg:space-y-0 lg:space-x-3 hover:text-secondary-light transition-colors group">
+                <Phone size={20} className="text-secondary-light shrink-0 lg:w-[18px] lg:h-[18px]" />
                 <span className="text-[10px] sm:text-xs lg:text-sm text-center lg:text-left">080806 73647</span>
               </a>
-              <a href="https://wa.me/918080673647" className="flex flex-col lg:flex-row items-center lg:items-start space-y-2 lg:space-y-0 lg:space-x-3 hover:text-secondary transition-colors group">
-                <MessageCircle size={20} className="text-secondary shrink-0 lg:w-[18px] lg:h-[18px]" />
+              <a href="https://wa.me/918080673647" className="flex flex-col lg:flex-row items-center lg:items-start space-y-2 lg:space-y-0 lg:space-x-3 hover:text-secondary-light transition-colors group">
+                <MessageCircle size={20} className="text-secondary-light shrink-0 lg:w-[18px] lg:h-[18px]" />
                 <span className="text-[10px] sm:text-xs lg:text-sm text-center lg:text-left">WhatsApp</span>
               </a>
-              <a href="mailto:info@matarefrigeration.com" className="flex flex-col lg:flex-row items-center lg:items-start space-y-2 lg:space-y-0 lg:space-x-3 hover:text-secondary transition-colors group">
-                <Mail size={20} className="text-secondary shrink-0 lg:w-[18px] lg:h-[18px]" />
+              <a href="mailto:info@matarefrigeration.com" className="flex flex-col lg:flex-row items-center lg:items-start space-y-2 lg:space-y-0 lg:space-x-3 hover:text-secondary-light transition-colors group">
+                <Mail size={20} className="text-secondary-light shrink-0 lg:w-[18px] lg:h-[18px]" />
                 <span className="text-[10px] sm:text-xs lg:text-sm text-center lg:text-left truncate max-w-full">Email Us</span>
               </a>
-              <a href="https://www.indiamart.com/matarefrigeration/profile.html" target="_blank" rel="noopener noreferrer" className="flex flex-col lg:flex-row items-center lg:items-start space-y-2 lg:space-y-0 lg:space-x-3 hover:text-secondary transition-colors group">
-                <Store size={20} className="text-secondary shrink-0 lg:w-[18px] lg:h-[18px]" />
+              <a href="https://www.indiamart.com/matarefrigeration/profile.html" target="_blank" rel="noopener noreferrer" className="flex flex-col lg:flex-row items-center lg:items-start space-y-2 lg:space-y-0 lg:space-x-3 hover:text-secondary-light transition-colors group">
+                <Store size={20} className="text-secondary-light shrink-0 lg:w-[18px] lg:h-[18px]" />
                 <span className="text-[10px] sm:text-xs lg:text-sm text-center lg:text-left">IndiaMART</span>
               </a>
-              <a href="https://www.justdial.com/Navi-Mumbai/Mata-Refrigeration-Shetkari-Samaj-Mandir-Kopar-Khairane-Sector-4/022PXX22-XX22-201123093513-K5M9_BZDET" target="_blank" rel="noopener noreferrer" className="flex flex-col lg:flex-row items-center lg:items-start space-y-2 lg:space-y-0 lg:space-x-3 hover:text-secondary transition-colors group">
-                <Globe size={20} className="text-secondary shrink-0 lg:w-[18px] lg:h-[18px]" />
+              <a href="https://www.justdial.com/Navi-Mumbai/Mata-Refrigeration-Shetkari-Samaj-Mandir-Kopar-Khairane-Sector-4/022PXX22-XX22-201123093513-K5M9_BZDET" target="_blank" rel="noopener noreferrer" className="flex flex-col lg:flex-row items-center lg:items-start space-y-2 lg:space-y-0 lg:space-x-3 hover:text-secondary-light transition-colors group">
+                <Globe size={20} className="text-secondary-light shrink-0 lg:w-[18px] lg:h-[18px]" />
                 <span className="text-[10px] sm:text-xs lg:text-sm text-center lg:text-left">Justdial</span>
               </a>
             </div>
