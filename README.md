@@ -14,7 +14,7 @@ A modern, dynamic digital profile for Matha designed to showcase skills, project
 1.  **Clone the repository**:
     ```bash
     git clone <repository-url>
-    cd Matha-Profile
+    cd Matha-Profiles
     ```
 
 2.  **Install dependencies**:
