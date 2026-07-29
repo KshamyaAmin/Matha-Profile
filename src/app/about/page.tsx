@@ -1,11 +1,11 @@
-import { 
-  ShieldCheck, 
-  Truck, 
-  MapPin, 
-  Package, 
-  Wrench, 
-  Boxes, 
-  ArrowRight, 
+import {
+  ShieldCheck,
+  Truck,
+  MapPin,
+  Package,
+  Wrench,
+  Boxes,
+  ArrowRight,
   CheckCircle2,
   Award,
   Target,
@@ -22,7 +22,7 @@ export default function AboutPage() {
       {/* --- Hero Section --- */}
       <section className="relative flex h-[420px] md:h-[480px] items-center overflow-hidden w-full bg-primary-dark pb-16 md:pb-24">
         <div className="absolute inset-0 z-0">
-          <Image 
+          <Image
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuC37i-8XdrQj4Ji82pMNwwyko2D5XCUWuKcGFfL6CvtGaJnrDtdoTcq_IQzFyK13O3XtJ_0m3mNcyPqkwB-nAFc4-lBlJPerM0ciTsZ0sMN8Y5ha-TPzugwgS-3fnEFqZICPXRiot_-O47TRZVJWF5rHimb8obkf1xCeR9qkd-MCHn8mKwisABxuOyp3ZplRryQKpaB4N6gQrD7RR3_DGE1-HZSssrfkOlnTFVb5nBLQ7U3FcraQkz7UVw-Rbz6o8FOR8fLCXk6v8E"
             alt="Industrial Refrigeration Warehouse"
             fill
@@ -69,7 +69,7 @@ export default function AboutPage() {
               Mata Refrigeration is proud to be part of a rich business heritage originally founded under the Agarwal Group of Companies. Headed by the late <strong>Mr. B.L. Agarwal</strong>—a visionary entrepreneur who possessed the drive and caliber to explore new products in new markets—the company was built on the foundation of matching market demands with cutting-edge technologies.
             </p>
             <p className="text-gray-600 leading-relaxed text-base">
-              Today, the responsibility of realizing that vision is shared by his sons. With focused devotion and dedication, they work continuously to expand the customer base and provide better, more reliable service. We continue to look towards the future while honoring the principles of integrity and commitment that started it all.
+              Today , the responsibility of realizing that vision is shared by his sons. With focused devotion and dedication, they work continuously to expand the customer base and provide better, more reliable service. We continue to look towards the future while honoring the principles of integrity and commitment that started it all.
             </p>
           </div>
 
@@ -162,7 +162,7 @@ export default function AboutPage() {
           {/* CEO Image Container */}
           <div className="lg:col-span-5 flex flex-col items-center lg:items-start">
             <div className="relative w-full aspect-[4/5] max-w-sm rounded-2xl overflow-hidden shadow-2xl border-4 border-white ring-1 ring-gray-200">
-              <Image 
+              <Image
                 src="/images/arun_agarwal_ceo.png"
                 alt="Arun Agarwal - CEO"
                 fill
@@ -220,7 +220,7 @@ export default function AboutPage() {
             <h2 className="text-4xl md:text-5xl font-bold uppercase mb-6 leading-tight">Partner with Us Today</h2>
             <p className="text-lg text-white/70">Get specialized volume pricing and technical consultation for your commercial and industrial cooling setups.</p>
           </div>
-          <Link 
+          <Link
             href="/contact"
             className="bg-accent hover:bg-accent-dark text-white font-bold h-14 px-10 rounded-full transition-all flex items-center gap-3 whitespace-nowrap active:scale-95 relative z-10 shadow-lg"
           >
