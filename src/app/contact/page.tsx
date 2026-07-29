@@ -108,16 +108,19 @@ export default function ContactPage() {
         headers: { 'Accept': 'application/json' }
       });
 
-      if (response.ok) {
+      const data = await response.json();
+
+      if (response.ok && data.success === 'true') {
         form.reset();
         setSelectedCategories([]);
         setOtherText('');
         setStatus('success');
       } else {
-        throw new Error('Submission failed');
+        throw new Error(data.message || 'Submission failed');
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
+      setErrors(errs => ({ ...errs, form: err.message || 'Something went wrong.' }));
       setStatus('error');
     }
   };
@@ -288,7 +291,7 @@ export default function ContactPage() {
                 {status === 'error' && (
                   <div className="rounded-xl bg-red-50 border border-red-200 p-4 text-sm text-red-700 mb-5">
                     <p className="font-bold text-base">Submission failed</p>
-                    <p className="mt-1">Something went wrong. Please try again or call us directly.</p>
+                    <p className="mt-1">{errors.form || "Something went wrong. Please try again or call us directly."}</p>
                   </div>
                 )}
 
