@@ -35,7 +35,7 @@ export default function AboutPage() {
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8 w-full">
           <div className="max-w-2xl">
             <span className="text-accent mb-2 inline-block font-semibold tracking-widest uppercase text-sm">
-              OUR LEGACY & BUSINESS VALUES
+              OUR LEGACY & BUSINESS VALUE
             </span>
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 uppercase leading-tight tracking-tight">
               About Mata Refrigeration
