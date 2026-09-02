@@ -32,7 +32,7 @@ export default function Hero() {
               <div className="inline-flex w-fit items-center gap-2 rounded-sm bg-[#1FAB89] px-3 py-1 mb-1">
                 <BadgeCheck size={13} className="text-white" />
                 <span className="text-[11px] font-bold uppercase tracking-widest text-white">
-                  Authorized Industrial Dealer
+                  Authorized Refrigerant  Gas Dealer
                 </span>
               </div>
               <p className="text-[10px] sm:text-xs font-semibold text-accent uppercase tracking-widest">Navi Mumbai's Leading Distributor</p>
@@ -105,7 +105,7 @@ export default function Hero() {
         {/* Gradient edge overlays for smooth transition/fades */}
         <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
-        
+
         <div className="relative w-full overflow-hidden">
           <div className="animate-marquee-rtl flex items-center">
             {/* First Set of Logos */}
