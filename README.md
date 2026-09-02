@@ -22,11 +22,22 @@ A modern, dynamic digital profile for Matha designed to showcase skills, project
     npm install
     ```
 
-3.  **Run the development server**:
-    ```bash
-    npm run dev
-    ```
-    The profile will be accessible at `http://localhost:5173`.
+3.  **Run with One Click (Windows)**:
+    Simply double-click `run.bat` (or `start.bat`) to launch both the FastAPI backend and Next.js frontend servers simultaneously and open the app in your browser.
+    To stop all servers, double-click `stop.bat`.
+
+4.  **Or Run Manually**:
+    - Frontend:
+      ```bash
+      npm run dev
+      ```
+      Accessible at `http://localhost:3000`.
+    - Backend:
+      ```bash
+      cd backend
+      python -m uvicorn main:app --reload --port 8000
+      ```
+      Accessible at `http://localhost:8000`.
 
 ## Usage
 
